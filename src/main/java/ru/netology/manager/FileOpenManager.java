@@ -36,12 +36,10 @@ public class FileOpenManager {
 
     //Получать список всех приложений, которые привязаны к каким-либо расширениям
     public Set<String> getAppWithExtension(Map<String, String> map) {
-        //List<String> result = new ArrayList<String>();
-        Set<String> result1 = new TreeSet<String>();
+         Set<String> result = new TreeSet<String>();
         for (String k : map.values()) {
-            result1.add(k);
+            result.add(k);
         }
-        // Collections.sort(result);
-        return result1;
+        return result;
     }
 }
