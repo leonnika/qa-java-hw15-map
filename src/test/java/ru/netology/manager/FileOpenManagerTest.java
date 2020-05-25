@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 class FileOpenManagerTest {
-    private Map<String, String> extensionApp = new HashMap<String, String>();
-    private FileOpenManager manager = new FileOpenManager(extensionApp);
+    private FileOpenManager manager = new FileOpenManager();
 
     @Nested
     public class Empty {
@@ -23,7 +22,7 @@ class FileOpenManagerTest {
             Map<String, String> expected = new HashMap<String, String>();
             expected.put("png", "paint");
             manager.addApp("png", "paint");
-            assertEquals(expected, extensionApp);
+            assertEquals(expected, manager.getAllMap());
         }
 
         @Test
@@ -34,7 +33,7 @@ class FileOpenManagerTest {
         @Test
         void shouldDeleteApp() {
             Map<String, String> expected = new HashMap<String, String>();
-            assertEquals(expected, extensionApp);
+            assertEquals(expected, manager.getAllMap());
         }
 
         @Test
@@ -52,24 +51,25 @@ class FileOpenManagerTest {
 
     @Nested
     public class MultipleItem {
+        Map<String, String> expected = new HashMap<String, String>();
+
         @BeforeEach
         void init() {
-            extensionApp.put("doc", "word");
-            extensionApp.put("xls", "excel");
-            extensionApp.put("txt", "word");
-            extensionApp.put("html", "chrome");
-        }
-
-        @Test
-        void shouldAddApp() {
-            Map<String, String> expected = new HashMap<String, String>();
+            manager.addApp("doc", "word");
+            manager.addApp("xls", "excel");
+            manager.addApp("txt", "word");
+            manager.addApp("html", "chrome");
             expected.put("doc", "word");
             expected.put("xls", "excel");
             expected.put("txt", "word");
             expected.put("html", "chrome");
+        }
+
+        @Test
+        void shouldAddApp() {
             expected.put("png", "paint");
             manager.addApp("png", "Paint");
-            assertEquals(expected, extensionApp);
+            assertEquals(expected, manager.getAllMap());
         }
 
         @Test
@@ -80,13 +80,9 @@ class FileOpenManagerTest {
 
         @Test
         void shouldDeleteApp() {
-            Map<String, String> expected = new HashMap<String, String>();
-            expected.put("doc", "word");
-            expected.put("xls", "excel");
-            expected.put("txt", "word");
-            expected.put("html", "chrome");
+            manager.addApp("png", "Paint");
             manager.deleteApp("png");
-            assertEquals(expected, extensionApp);
+            assertEquals(expected, manager.getAllMap());
         }
 
         @Test
